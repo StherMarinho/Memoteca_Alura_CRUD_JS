@@ -3,10 +3,17 @@ import api from "./api.js";
 const ui = {
     async renderizarPensamentos(){
         const listaPensamentos = document.getElementById('lista-pensamentos');
-
+        const mensagemVazia = document.getElementById('mensagem-vazia')
+        listaPensamentos.innerHTML = '';
         try{
             const pensamentos = await api.buscarPensamentos();
-            pensamentos.forEach(ui.adicionarPensamentoNaLista);
+            if(pensamentos.length == 0){
+                mensagemVazia.style.display = 'block';
+            }
+            else{
+                mensagemVazia.style.display = 'none';
+                pensamentos.forEach(ui.adicionarPensamentoNaLista);
+            }
         }
         catch{
             alert('Erro ao renderizar pensamentos');
@@ -31,7 +38,7 @@ const ui = {
         const pensamentoAutoria = document.createElement('div')
         pensamentoAutoria.textContent = pensamento.autoria
         pensamentoAutoria.classList.add('pensamento-autoria')
-
+        //editar
         const botaoEditar = document.createElement('button')
         botaoEditar.classList.add('botao-editar') 
         botaoEditar.onclick = () => ui.preencherFormulario(pensamento.id)
@@ -40,10 +47,27 @@ const ui = {
         iconeEditar.src = 'assets/imagens/icone-editar.png'
         iconeEditar.alt = 'Editar'
         botaoEditar.appendChild(iconeEditar)
+        //excluir   
+        const botaoExcluir = document.createElement('button')
+        botaoExcluir.classList.add('botao-excluir') 
+        botaoExcluir.onclick = async () => { //async pq chama a requisição diretamente da api
+            try {
+                await api.excluirPensamento(pensamento.id)
+                ui.renderizarPensamentos()
+            } 
+            catch (error) {
+                alert('Erro ao excluir pensamento')
+            }
+        }
+
+        const iconeExcluir = document.createElement('img')
+        iconeExcluir.src = 'assets/imagens/icone-excluir.png'
+        iconeExcluir.alt = 'Excluir'
+        botaoExcluir.appendChild(iconeExcluir)
 
         const icones = document.createElement('div')
         icones.classList.add('icones')
-        icones.append(botaoEditar)
+        icones.append(botaoEditar,botaoExcluir)
 
 
         li.append(iconeAspas,pensamentoConteudo,pensamentoAutoria,icones)

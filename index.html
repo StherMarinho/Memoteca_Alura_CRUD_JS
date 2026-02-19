@@ -47,6 +47,14 @@
       <span></span>
       <section id="lista-pensamentos-container">
         <h3>Meu Mural</h3>
+        <setion id="busca-container">
+          <input type="text" id="campo-busca" placeholder="O que você procura?"/>
+          <img src="assets/imagens/">
+        </setion>
+        <div id="mensagem-vazia" class="mensagem-vazia">
+          <img src="assets/imagens/lista-vazia.png" alt="Nenhum pensamento disponível">
+          <p>Nada por aqui ainda, que tal compartilhar alguma ideia?</p>
+        </div>
         <ul id="lista-pensamentos"></ul>
       </section>
     </main>
@@ -55,6 +63,8 @@
         2024 Desenvolvido por Alura. 
         Projeto fictício sem fins comerciais.</p>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+
     <script type="module" src="js/api.js"></script>
     <script type="module" src="js/main.js"></script>
     <script type="module" src="js/ui.js"></script>
